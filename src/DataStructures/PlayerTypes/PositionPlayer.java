@@ -1,5 +1,7 @@
 package DataStructures.PlayerTypes;
 
+import DataStructures.Lineups;
+
 import java.io.IOException;
 
 public class PositionPlayer extends Player{

@@ -2,32 +2,26 @@ package DataStructures;
 
 import DataStructures.PlayerTypes.Player;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class RotoHTMLConverter{
-    static class PlayerData{ //struct that will be passed to LineupConstructor
-        int lineup; //batting order spot
-        String Name; //playerName
-        int Salary; //$k
-        String plateSide; //L/R/S
+    String[] arrayTeams = new String[] {"ATL","ARI","BAL","BOS","CHC","CHW","CIN","CLE","COL","DET","HOU","KCR","LAA"
+            ,"LAD","MIA","MIL","MIN","NYM","NYY","OAK","PHI","PIT","SDP","SEA","SFG","STL","TBR","TEX","TOR","WAS"};
 
-        public PlayerData(int tempL, String tempN, int tempS, String tempP){
-            this.lineup = tempL;
-            this.Name = tempN;
-            this.Salary = tempS;
-            this.plateSide = tempP;
+    public RotoHTMLConverter(ArrayList<String> players, ArrayList<String> teams) throws IOException {
+        System.out.println("Converting HTML to Data");
+        for(String city : teams){
+            convertTeams(city);
         }
-    }
-
-    public RotoHTMLConverter(ArrayList<String> players){
-        System.out.println("Converting HTML to Arrays of Players");
-        for (Object team : players) {
+        for (String team : players) {
             //System.out.println(team);
-            convertHelper((String)team);
+            convertHelper(team);
         }
     }
 
-    private void convertHelper(String team){
+    private void convertHelper(String team) throws IOException {
         String NameTEMP = "";
         int SalaryTEMP = 0;
         String plateSideTEMP = "";
@@ -125,11 +119,13 @@ public class RotoHTMLConverter{
 
                 if(position.equals("SP") || position.equals("RP")){
                     newPlayer = LineupFactory.getPitcherPlayer(NameTEMP, team, position, SalaryTEMP);
-                    System.out.println(newPlayer.Name);
+                    //System.out.println(newPlayer.Name);
+                    newPlayer.run();
                 }
                 else{
                     newPlayer = LineupFactory.getPositionPlayer(NameTEMP, team, position, SalaryTEMP);
-                    System.out.println(newPlayer.Name);
+                    //System.out.println(newPlayer.Name);
+                    newPlayer.run();
                 }
 
                 //reset booleans and batting order for newTeam
@@ -167,5 +163,10 @@ public class RotoHTMLConverter{
         temp = Float.parseFloat(team.substring(startingIndex + 1,endingIndex))*1000; //need temp float or lose of precision
         result = (int)temp; //cast back to int -> then store as Salary in Player
         return result;
+    }
+
+    private void convertTeams(String line){
+        for(int i = 0; i < line.length(); i++)
+            System.out.println(line.charAt(i));
     }
 }

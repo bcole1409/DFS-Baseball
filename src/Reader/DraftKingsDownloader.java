@@ -14,6 +14,7 @@ public class DraftKingsDownloader implements URLHandler {
     final String URL = "https://rotogrinders.com/lineups/mlb";
     private Document doc; //stores html
     ArrayList<String> teamLineUps = new ArrayList<>(); //list of html players
+    ArrayList<String> teams = new ArrayList<>(); //list of html teams
     RotoHTMLConverter listOfAllPlayers;
 
     public DraftKingsDownloader(){
@@ -36,7 +37,7 @@ public class DraftKingsDownloader implements URLHandler {
         }
     }
 
-    public void parse() throws InterruptedException {
+    public void parse() throws InterruptedException, IOException {
         System.out.print("PARSER INITIATING");
 
         for(int i = 0; i < 3; i++){
@@ -49,16 +50,24 @@ public class DraftKingsDownloader implements URLHandler {
         //Elements div = doc.select("div.schedules"); //select div class
         Elements ul = doc.select("div.schedules > ul");
         Elements li = ul.select("li"); //select all li under ul
-        //Elements Games = li.select("div");
         Elements Players = li.select("ul.players");
+        Elements Teams = li.select("div.teams");
 
+        //index increments initialized
         int i = 0;
+        int j = 0;
+
 
         for (Element element : Players) {
             teamLineUps.add(i,element.text());
             i++; //increment index of array
         }
 
-        listOfAllPlayers = new RotoHTMLConverter(teamLineUps);
+        for (Element element : Teams) {
+            teams.add(j,element.text());
+            j++; //increment index of array
+        }
+
+        listOfAllPlayers = new RotoHTMLConverter(teamLineUps, teams);
     }
 }
