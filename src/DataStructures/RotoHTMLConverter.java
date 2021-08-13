@@ -1,26 +1,17 @@
 package DataStructures;
 
+import DataStructures.PlayerTypes.Player;
+
 import java.util.ArrayList;
-import java.util.Hashtable;
 
-public class StringConverter {
-    Hashtable<String, Player> table = new Hashtable<String, Player>();
-    ArrayList<Player> C = new ArrayList<Player>();
-    ArrayList<Player> B1 = new ArrayList<Player>();
-    ArrayList<Player> B2 = new ArrayList<Player>();
-    ArrayList<Player> B3 = new ArrayList<Player>();
-    ArrayList<Player> BSS = new ArrayList<Player>();
-    ArrayList<Player> OF = new ArrayList<Player>();
-    ArrayList<Player> SP = new ArrayList<Player>();
-    ArrayList<Player> M = new ArrayList<Player>();
+public class RotoHTMLConverter{
+    static class PlayerData{ //struct that will be passed to LineupConstructor
+        int lineup; //batting order spot
+        String Name; //playerName
+        int Salary; //$k
+        String plateSide; //L/R/S
 
-    static class Player{
-        int lineup;
-        String Name;
-        int Salary;
-        String plateSide;
-
-        public Player(int tempL, String tempN, int tempS, String tempP){
+        public PlayerData(int tempL, String tempN, int tempS, String tempP){
             this.lineup = tempL;
             this.Name = tempN;
             this.Salary = tempS;
@@ -28,14 +19,12 @@ public class StringConverter {
         }
     }
 
-    public StringConverter(ArrayList players){
+    public RotoHTMLConverter(ArrayList<String> players){
         System.out.println("Converting HTML to Arrays of Players");
         for (Object team : players) {
             //System.out.println(team);
             convertHelper((String)team);
         }
-
-        printList();
     }
 
     private void convertHelper(String team){
@@ -131,7 +120,18 @@ public class StringConverter {
             //algo done for each player will create new player object -> needs to pass boolean test
 
             if(team.charAt(i) == '%'){
-                Player newPlayer = new Player(battingOrder, NameTEMP, SalaryTEMP, plateSideTEMP); //make empty player, will update fields through iteration of String
+                //adds new player to lineup generator
+                Player newPlayer;
+
+                if(position.equals("SP") || position.equals("RP")){
+                    newPlayer = LineupFactory.getPitcherPlayer(NameTEMP, team, position, SalaryTEMP);
+                    System.out.println(newPlayer.Name);
+                }
+                else{
+                    newPlayer = LineupFactory.getPositionPlayer(NameTEMP, team, position, SalaryTEMP);
+                    System.out.println(newPlayer.Name);
+                }
+
                 //reset booleans and batting order for newTeam
                 cSpaces = 0;
                 batting = false;
@@ -141,8 +141,7 @@ public class StringConverter {
                 side = false;
                 batOrder +=1;
 
-                //PUT PLAYER IN APPROPRIATE ARRAY
-                playerArranger(position, newPlayer);
+
 
                 i++; //INCREMENT TO NEXT PLAYER
             }
@@ -168,68 +167,5 @@ public class StringConverter {
         temp = Float.parseFloat(team.substring(startingIndex + 1,endingIndex))*1000; //need temp float or lose of precision
         result = (int)temp; //cast back to int -> then store as Salary in Player
         return result;
-    }
-
-    private void playerArranger(String position, Player player){
-        switch (position) {
-            case "C" -> C.add(player);
-            case "1B" -> table.put(position, player);
-            case "2B" -> B2.add(player);
-            case "SS" -> BSS.add(player);
-            case "3B" -> B3.add(player);
-            case "OF" -> OF.add(player);
-            case "SP", "RP" -> SP.add(player);
-            default -> M.add(player);
-        }
-    }
-
-    private void printList(){
-        System.out.println();
-        System.out.println("List of Catchers: ");
-        for(Player p : C){
-            System.out.print(p.Name + " ");
-        }
-
-        System.out.println();
-        System.out.println("List of 1B: ");
-        for(Player p : B1){
-            System.out.print(p.Name + " ");
-        }
-
-        System.out.println();
-        System.out.println("List of 2B: ");
-        for(Player p : B2){
-            System.out.print(p.Name + " ");
-        }
-
-        System.out.println();
-        System.out.println("List of SHORT STOPS: ");
-        for(Player p : BSS){
-            System.out.print(p.Name + " ");
-        }
-
-        System.out.println();
-        System.out.println("List of 3B: ");
-        for(Player p : B3){
-            System.out.print(p.Name + " ");
-        }
-
-        System.out.println();
-        System.out.println("List of OUT FIELDERS: ");
-        for(Player p : OF){
-            System.out.print(p.Name + " ");
-        }
-
-        System.out.println();
-        System.out.println("List of Starting Pitchers: ");
-        for(Player p : SP){
-            System.out.print(p.Name + " ");
-        }
-
-        System.out.println();
-        System.out.println("List of Multiple Positions: ");
-        for(Player p : M){
-            System.out.print(p.Name + " ");
-        }
     }
 }

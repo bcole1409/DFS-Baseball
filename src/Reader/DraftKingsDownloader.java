@@ -1,6 +1,6 @@
 package Reader;
 
-import DataStructures.StringConverter;
+import DataStructures.RotoHTMLConverter;
 import DataStructures.URLHandler;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -13,8 +13,8 @@ import java.io.IOException;
 public class DraftKingsDownloader implements URLHandler {
     final String URL = "https://rotogrinders.com/lineups/mlb";
     private Document doc; //stores html
-    ArrayList<String> teamLineUps = new ArrayList<>(); //size of schedule * 2
-    public StringConverter listOfAllPlayers;
+    ArrayList<String> teamLineUps = new ArrayList<>(); //list of html players
+    RotoHTMLConverter listOfAllPlayers;
 
     public DraftKingsDownloader(){
         run();
@@ -57,12 +57,8 @@ public class DraftKingsDownloader implements URLHandler {
         for (Element element : Players) {
             teamLineUps.add(i,element.text());
             i++; //increment index of array
-
         }
 
-        listOfAllPlayers = new StringConverter(teamLineUps);
+        listOfAllPlayers = new RotoHTMLConverter(teamLineUps);
     }
 }
-
-//System.out.println(element.text());
-//System.out.println(element.select("span > span").text());
