@@ -30,7 +30,7 @@ public class Lineups{
         //DailyLineups.add(arrayIndex(p), p);
         int size = DailyLineups.size();
         for(int i = 0; i < size; i++){
-            System.out.print(i + ": ");
+            System.out.print(DailyLineups.get(i).BO + ": " + DailyLineups.get(i).CITY);
             System.out.println(DailyLineups.get(i).Name);
         }
     }
