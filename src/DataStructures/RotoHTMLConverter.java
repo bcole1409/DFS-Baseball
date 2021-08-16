@@ -1,25 +1,22 @@
 package DataStructures;
 
 import DataStructures.PlayerTypes.Player;
+import Reader.BaseballReferenceDownloader;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 public class RotoHTMLConverter{
-    String[] arrayTeams = new String[] {"ATL","ARI","BAL","BOS","CHC","CHW","CIN","CLE","COL","DET","HOU","KCR","LAA"
-            ,"LAD","MIA","MIL","MIN","NYM","NYY","OAK","PHI","PIT","SDP","SEA","SFG","STL","TBR","TEX","TOR","WAS"};
-    int[] teamIndex = new int[] {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1};
-    int bI = 0;
-    int tI = 0;
+    private int tIndex = 0; //used to help store players in correct index
 
     public RotoHTMLConverter(ArrayList<String> players, ArrayList<String> teams) throws IOException {
         System.out.println("Converting HTML to Data");
         for(String city : teams){
-            convertTeams(city);
+            convertTeams(city); //function reads html and insert index in hash table
         }
 
         for (String team : players) {
-            //System.out.println(team);
+            System.out.println(team);
             convertHelper(team);
         }
     }
@@ -59,6 +56,7 @@ public class RotoHTMLConverter{
 
             if(!batting){
                 battingOrder = team.charAt(i) - 48; //ascii value convert by subtracting 48
+                batOrder++;
                 batting = true;
                 i++; //skip next space
                 continue;
@@ -121,35 +119,33 @@ public class RotoHTMLConverter{
                 Player newPlayer;
 
                 if(position.equals("SP") || position.equals("RP")){
-
-                    newPlayer = LineupFactory.getPitcherPlayer(teamIndex[tI], battingOrder, NameTEMP, team, position, SalaryTEMP);
-                    //System.out.println(newPlayer.Name);
-                    newPlayer.run();
+                    newPlayer = LineupFactory.getPitcherPlayer(TeamHashTable.teamIndex.get(tIndex), battingOrder, NameTEMP, team, position, SalaryTEMP);
                 }
+
                 else{
-                    newPlayer = LineupFactory.getPositionPlayer(teamIndex[tI], battingOrder, NameTEMP, team, position, SalaryTEMP);
-                    //System.out.println(newPlayer.Name);
-                    newPlayer.run();
+                    newPlayer = LineupFactory.getPositionPlayer(TeamHashTable.teamIndex.get(tIndex), battingOrder, NameTEMP, team, position, SalaryTEMP);
                 }
 
+                System.out.println(newPlayer.Name);
 
-                //reset booleans and batting order for newTeam
-                //new
-                //newTeam = false;
-                //new
+                new BaseballReferenceDownloader(newPlayer); //add statistics to array of stats
+                newPlayer.run(); //adds player to lineup list
+
+                if(batOrder == 10){
+                    batOrder = 1;
+                    tIndex++;
+                }
+
+                //reset booleans
                 cSpaces = 0;
                 batting = false;
                 nameFinder = false;
                 pos = false;
                 stName = false;
                 side = false;
-                batOrder +=1;
+
 
                 i++; //INCREMENT TO NEXT PLAYER
-            }
-
-            if(battingOrder - 69 == 0){ //end of order
-                tI++;
             }
         }
     }
@@ -183,29 +179,17 @@ public class RotoHTMLConverter{
             if (line.charAt(i) >= 65 && line.charAt(i) <= 90) {
                 if (line.charAt(i+1) >= 65 && line.charAt(i+1) <= 90) {
                     teamCount++;
+                    currentTeam = line.substring(i, i + 3); //grab "AAA" city-format
+                    TeamHashTable.teamIndex.put(TeamHashTable.Index, currentTeam); //insert dict key,value
+                    TeamHashTable.Index++;
 
-                    currentTeam = line.substring(i, i + 3);
-                    teamIndex[bI] = teamFinder(currentTeam); //provides currentIndex
-                    bI++;
-                    i = i+3; //increment i by 3
+                    i = i+10; //speed up city grabbing process
                 }
             }
 
             if (teamCount == 2) {
-                return;
+                return; //found all cities in Line, no need to iterate further
             }
         }
-    }
-
-    private int teamFinder(String team){
-        int index = 0;
-
-        for(String t : arrayTeams){
-            if(t.equals(team)){
-                return index;
-            }
-            index++;
-        }
-        return 30;
     }
 }

@@ -38,7 +38,7 @@ public class DraftKingsDownloader implements URLHandler {
     }
 
     public void parse() throws InterruptedException, IOException {
-        System.out.print("PARSER INITIATING");
+        System.out.print("PARSING CONVERTING ROTOGRINDERS HTML");
 
         for(int i = 0; i < 3; i++){
             TimeUnit.SECONDS.sleep(2);

@@ -8,11 +8,9 @@ import java.util.List;
 
 public class Lineups{
     static int i = 0; //increment
-
-    private static final List<Player> DailyLineups = new ArrayList<>(); //list of all lineups
+    private static final List<Player> DailyLineups = new ArrayList<>(TeamHashTable.teamIndex.size()*9); //make size of total teams * 9
 
     public static void add(Player p) {
-        //DailyLineups.add(arrayIndex(p), p);
         DailyLineups.add(p);
     }
 
@@ -27,11 +25,13 @@ public class Lineups{
     }
 
     public static void printAll() {
-        //DailyLineups.add(arrayIndex(p), p);
         int size = DailyLineups.size();
-        for(int i = 0; i < size; i++){
-            System.out.print(DailyLineups.get(i).BO + ": " + DailyLineups.get(i).CITY);
-            System.out.println(DailyLineups.get(i).Name);
+
+        System.out.print(size);
+
+        for (Player dailyLineup : DailyLineups) {
+            System.out.print(dailyLineup.BO + ": " + dailyLineup.CITY + " ");
+            System.out.println(dailyLineup.Name);
         }
     }
 }
