@@ -37,22 +37,25 @@ public class BaseballReferenceDownloader implements URLHandler {
 
     public void connect() throws IOException {
         try{
-            String fName = firstName(player.Name);
-            String lName = lastName(player.Name);
+            String fName = firstName(player.Name).toLowerCase();
+            String lName = lastName(player.Name).toLowerCase();
             int index = 0;
-            URL.append(URLbase).append(lName.charAt(0) + "/").append(lName).append(fName).append(URLend.get(index));
+            //URL.append(URLbase).append(lName.charAt(0) + "/").append(lName).append(fName).append(URLend.get(index));
 
-            /*
             while(true){
                 URL.append(URLbase).append(lName.charAt(0) + "/").append(lName).append(fName).append(URLend.get(index));
-                doc = Jsoup.connect(URL.toString()).get();
-
-                Elements div = doc.select("a href");
                 System.out.println(URL.toString());
 
-                System.out.println("yrdy");
-                System.out.println(div.toString());
+                doc = Jsoup.connect(URL.toString()).get();
+
+                //Elements table = doc.select("td");
+                Elements table = doc.select("tbody");
+                Elements Date = table.select("tr.batting_standard.2021");
+
+                //System.out.println(table.toString());
+                System.out.println(Date.toString());
                 System.out.println("dfg");
+
 
                 if(true){
                     break;
@@ -60,7 +63,7 @@ public class BaseballReferenceDownloader implements URLHandler {
 
                 index++;
             }
-            */
+
 
             parse();
 
@@ -73,7 +76,7 @@ public class BaseballReferenceDownloader implements URLHandler {
     }
 
     public void parse() throws InterruptedException {
-        System.out.print("PARSING CONVERTING BASEBALLREFERENCES TO HTML");
+        System.out.print("");
     }
 
     private String firstName(String s){

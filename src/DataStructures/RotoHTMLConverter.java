@@ -16,7 +16,6 @@ public class RotoHTMLConverter{
         }
 
         for (String team : players) {
-            System.out.println(team);
             convertHelper(team);
         }
     }
