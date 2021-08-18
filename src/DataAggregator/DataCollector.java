@@ -13,7 +13,6 @@ public class DataCollector extends Player {
     //public StringConverter playerPrices; //temporary
 
     public DataCollector () throws IOException {
-        super();
         run();
     }
 

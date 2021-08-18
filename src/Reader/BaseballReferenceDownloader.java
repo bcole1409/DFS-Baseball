@@ -62,10 +62,7 @@ public class BaseballReferenceDownloader implements URLHandler {
 
             while(!isFound){
                 URL.append(URLbase).append(lName.charAt(0) + "/").append(lName).append(fName).append(URLend.get(index));
-                System.out.println(URL.toString());
-
                 doc = Jsoup.connect(URL.toString()).get();
-                Element battingStandard = doc.select("tbody").first();
 
                 //Elements team = doc.select("a[href]");
                 Elements team = doc.select("p");
@@ -81,7 +78,6 @@ public class BaseballReferenceDownloader implements URLHandler {
 
                     if(currentWord.equals(t)){
                         isFound = true;
-                        System.out.println("Found Team");
                         break;
                     }
 
@@ -107,7 +103,14 @@ public class BaseballReferenceDownloader implements URLHandler {
     }
 
     public void parse() throws InterruptedException {
-        System.out.print("");
+        Elements battingStandard = doc.select("row_summable sortable stats_table now_sortable");
+        Elements tr = battingStandard.select("tr");
+
+        for(Element e : tr){
+            System.out.println(tr.text());
+            System.out.println("");
+        }
+
     }
 
     private String firstName(String s){
