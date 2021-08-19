@@ -21,8 +21,8 @@ public class BaseballReferenceDownloader implements URLHandler {
             ,"03-bat.shtml#all_batting_advanced","04-bat.shtml#all_batting_advanced"
             ,"05-bat.shtml#all_batting_advanced","06-bat.shtml#all_batting_advanced"
             ,"07-bat.shtml#all_batting_advanced");
-    final List<String> forbidden = Arrays.asList("Giancarlo Stanton", "Travis d'Arnaud");
-    final List<String> real = Arrays.asList("Mike Stanton", "Travis Darnaud");
+    final List<String> forbidden = Arrays.asList("Giancarlo Stanton", "Travis d'Arnaud", "Jose Barrero", "Chi Chi", "Tommy La", "Bryan De", "Tyler O'Neill", "Yulieski Gurriel", "Ryan O'Hearn", "Hoy Jun");
+    final List<String> real = Arrays.asList("Mike Stanton", "Travis Darnaud", "Jose Garcia", "Chi Gonzalez", "Tommy LaStella", "Bryan DeLaCruz", "Tyler Oneill", "Yuli Gourriel", "Ryan Ohearn", "Hoy Park");
 
     //used to sort data
     private Document doc; //stores html
@@ -40,8 +40,9 @@ public class BaseballReferenceDownloader implements URLHandler {
         try{
             //test for forbidden names -> change name to correct format
             if(forbidden.contains(player.Name)){
-                System.out.println("TRUE");
-                System.out.println(real.get(forbidden.indexOf(player.Name)));
+                //Testing Purposes
+                //System.out.println("TRUE");
+                //System.out.println(real.get(forbidden.indexOf(player.Name)));
 
                 player.Name = real.get(forbidden.indexOf(player.Name));
             }
@@ -93,22 +94,24 @@ public class BaseballReferenceDownloader implements URLHandler {
             }
 
             parse();
-
         }
         catch (Exception e)
         {
+            System.out.println(player.Name);
             System.out.println("Unable to find player");
+
 
         }
     }
 
     public void parse() throws InterruptedException {
-        Elements battingStandard = doc.select("row_summable sortable stats_table now_sortable");
+        Elements battingStandard = doc.select("tbody");
         Elements tr = battingStandard.select("tr");
 
+        System.out.println(player.Name);
         for(Element e : tr){
-            System.out.println(tr.text());
-            System.out.println("");
+            System.out.println(e.text());
+            //System.out.println(e.text().substring(0,5));
         }
 
     }

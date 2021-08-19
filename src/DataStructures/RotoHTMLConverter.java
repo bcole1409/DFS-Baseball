@@ -125,8 +125,6 @@ public class RotoHTMLConverter{
                     newPlayer = LineupFactory.getPositionPlayer(TeamHashTable.teamIndex.get(tIndex), battingOrder, NameTEMP, team, position, SalaryTEMP);
                 }
 
-                System.out.println(newPlayer.Name);
-
                 new BaseballReferenceDownloader(newPlayer); //add statistics to array of stats
                 newPlayer.run(); //adds player to lineup list
 
