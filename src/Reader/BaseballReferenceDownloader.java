@@ -97,23 +97,14 @@ public class BaseballReferenceDownloader implements URLHandler {
         }
         catch (Exception e)
         {
-            System.out.println(player.Name);
-            System.out.println("Unable to find player");
-
-
+            // System.out.println("Unable to find player");
         }
     }
 
-    public void parse() throws InterruptedException {
-        Elements battingStandard = doc.select("tbody");
-        Elements tr = battingStandard.select("tr");
-
-        System.out.println(player.Name);
-        for(Element e : tr){
-            System.out.println(e.text());
-            //System.out.println(e.text().substring(0,5));
-        }
-
+    public void parse(){
+        //Elements battingStandard = doc.select("tbody");
+        Elements battingStandard = doc.select("tfoot");
+        playerStandardBatting(battingStandard.text());
     }
 
     private String firstName(String s){
@@ -135,5 +126,162 @@ public class BaseballReferenceDownloader implements URLHandler {
         }
 
         return null; //name not found
+    }
+
+    private void playerStandardBatting(String e){
+
+        int spaceCounter = 0;
+        int spaceCounterPrev = 0;
+        int spaceCounterCurrent = 0;
+
+        //data variable
+        final double careerWeight = 0.4;
+        final double yearWeight = 0.6;
+        int parser;
+
+        for(int i = 0; i < e.length(); i++) {
+            if(e.charAt(i) == 32) {
+                spaceCounterPrev = spaceCounterCurrent + 1; //set previous space index
+                spaceCounterCurrent = i; //set currentIndex
+                spaceCounter++;
+
+                try {
+                    parser = convertToInt(e.substring(spaceCounterPrev,spaceCounterCurrent));
+                }
+
+                catch (NumberFormatException ignored){
+                    parser = 1; //temp
+                }
+
+
+                if(spaceCounter == 5 || spaceCounter == 30){ //AT BATS
+                    if(spaceCounter == 30) player.stats[0] += yearWeight * parser;
+                    else player.stats[0] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 6 || spaceCounter == 31){ //RUNS
+                    if(spaceCounter == 31) player.stats[1] += yearWeight * parser;
+                    else player.stats[1] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 7 || spaceCounter == 32){ //SINGLES
+                    if(spaceCounter == 32) player.stats[2] += yearWeight * parser;
+                    else player.stats[2] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 8 || spaceCounter == 33){ //DOUBLES
+                    if(spaceCounter == 33) {
+                        player.stats[3] += yearWeight * parser;
+                        player.stats[2] -= yearWeight * player.stats[3]; //TO GET ACCURATE SINGLES
+                    }
+
+                    else{
+                        player.stats[3] = careerWeight * parser;
+                        player.stats[2] -= careerWeight * player.stats[3]; //TO GET ACCURATE SINGLES
+                    }
+                    continue;
+                }
+
+                if(spaceCounter == 9 || spaceCounter == 34){ //TRIPLES
+                    if(spaceCounter == 34) {
+                        player.stats[4] += yearWeight * parser;
+                        player.stats[2] -= yearWeight * player.stats[4]; //TO GET ACCURATE SINGLES
+                    }
+                    else{
+                        player.stats[4] = careerWeight * parser;
+                        player.stats[2] -= careerWeight * player.stats[4]; //TO GET ACCURATE SINGLES
+                    }
+                    continue;
+                }
+
+                if(spaceCounter == 10 || spaceCounter == 35){ //HOMERUNS
+                    if(spaceCounter == 35) {
+                        player.stats[5] = yearWeight * parser;
+                        player.stats[2] -= yearWeight * player.stats[5]; //TO GET ACCURATE SINGLES
+                    }
+                    else{
+                        player.stats[5] = careerWeight * parser;
+                        player.stats[2] -= careerWeight * player.stats[5]; //TO GET ACCURATE SINGLES
+                    }
+
+                    continue;
+                }
+
+                if(spaceCounter == 11 || spaceCounter == 36){ //RBI
+                    if(spaceCounter == 36) player.stats[6] = yearWeight * parser;
+                    else player.stats[6] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 12 || spaceCounter == 37){ //STOLENBASES
+                    if(spaceCounter == 37) player.stats[7] += yearWeight * parser;
+                    else player.stats[7] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 13 || spaceCounter == 38){ //STEALING
+                    if(spaceCounter == 38) player.stats[8] += yearWeight * parser;
+                    else player.stats[8] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 14 || spaceCounter == 39){ //WALKS
+                    if(spaceCounter == 39) player.stats[9] += yearWeight * parser;
+                    else player.stats[9] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 15 || spaceCounter == 40){ //K's
+                    if(spaceCounter == 40) player.stats[10] += yearWeight * parser;
+                    else player.stats[10] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 17 || spaceCounter == 42){ //OBP
+                    if(spaceCounter == 42) player.stats[11] += yearWeight * parser;
+                    else player.stats[11] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 18 || spaceCounter == 43){ //SLG
+                    if(spaceCounter == 43) player.stats[12] += yearWeight * parser;
+                    else player.stats[12] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 19 || spaceCounter == 44){ //OPS
+                    if(spaceCounter == 44) player.stats[13] += yearWeight * parser;
+                    else player.stats[13] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 20 || spaceCounter == 45){ //OPS+ -> PLAYER ADJUSTED BALLPARKS
+                    if(spaceCounter == 45) player.stats[14] += yearWeight * parser;
+                    else player.stats[14] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 21 || spaceCounter == 46){ //TOTAL BASES
+                    if(spaceCounter == 46) player.stats[15] += yearWeight * parser;
+                    else player.stats[15] = careerWeight * parser;
+                    continue;
+                }
+
+                if(spaceCounter == 23 || spaceCounter == 48){ //HIT BY PITCH
+                    if(spaceCounter == 48) {
+                        player.stats[15] += yearWeight * parser;
+                        break;
+                    }
+                    else player.stats[15] = careerWeight * parser;
+                }
+            }
+        }
+    }
+
+    private int convertToInt(String s){
+        return Integer.parseInt(s);
     }
 }

@@ -31,8 +31,12 @@ public class Lineups{
 
         for (Player dailyLineup : DailyLineups) {
             System.out.print(dailyLineup.BO + ": " + dailyLineup.CITY + " ");
-            System.out.println(dailyLineup.Name);
+            System.out.print(dailyLineup.Name);
+            System.out.print(" " + dailyLineup.stats[0]);
+            System.out.println();
         }
+
+
     }
 }
 

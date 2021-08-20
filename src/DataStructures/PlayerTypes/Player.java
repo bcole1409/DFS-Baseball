@@ -5,7 +5,7 @@ import DataStructures.Lineups;
 import java.io.IOException;
 
 public abstract class Player {
-    public int[]stats = new int[25];
+    public double[]stats = new double[25];
     public String CITY;
     public int BO;
     public String Name;
@@ -28,4 +28,15 @@ public abstract class Player {
     public void run() throws IOException {
         Lineups.add(this);
     }
+
+    /*STATS TABLE
+    [0] = ATBATS
+    [1] = RUNS
+    [2] = SINGLES
+    [3] = DOUBLES
+    [4] = TRIPLES
+    [5] = HOMERUNS
+
+
+     */
 }
