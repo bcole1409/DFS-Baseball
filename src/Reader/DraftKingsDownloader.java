@@ -15,6 +15,7 @@ public class DraftKingsDownloader implements URLHandler {
     private Document doc; //stores html
     ArrayList<String> teamLineUps = new ArrayList<>(); //list of html players
     ArrayList<String> teams = new ArrayList<>(); //list of html teams
+    ArrayList<String> pitchers = new ArrayList<>(); //list of html teams
     RotoHTMLConverter listOfAllPlayers;
 
     public DraftKingsDownloader(){
@@ -40,8 +41,8 @@ public class DraftKingsDownloader implements URLHandler {
     public void parse() throws InterruptedException, IOException {
         System.out.print("PARSING CONVERTING ROTOGRINDERS HTML");
 
-        for(int i = 0; i < 3; i++){
-            TimeUnit.SECONDS.sleep(2);
+        for(int i = 0; i < 4; i++){
+            TimeUnit.SECONDS.sleep(1);
             System.out.print(".");
         }
 
@@ -52,11 +53,12 @@ public class DraftKingsDownloader implements URLHandler {
         Elements li = ul.select("li"); //select all li under ul
         Elements Players = li.select("ul.players");
         Elements Teams = li.select("div.teams");
+        Elements Pitchers = doc.getElementsByClass("pitcher players");
 
         //index increments initialized
         int i = 0;
         int j = 0;
-
+        int k = 0;
 
         for (Element element : Players) {
             teamLineUps.add(i,element.text());
@@ -68,6 +70,11 @@ public class DraftKingsDownloader implements URLHandler {
             j++; //increment index of array
         }
 
-        listOfAllPlayers = new RotoHTMLConverter(teamLineUps, teams);
+        for(Element element : Pitchers){
+            pitchers.add(k,element.text());
+            k++;
+        }
+
+        listOfAllPlayers = new RotoHTMLConverter(teamLineUps, teams, pitchers);
     }
 }

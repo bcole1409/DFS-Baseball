@@ -1,5 +1,6 @@
 package DataStructures;
 
+import DataStructures.PlayerTypes.PitcherPlayer;
 import DataStructures.PlayerTypes.Player;
 import Reader.BaseballReferenceDownloader;
 
@@ -8,15 +9,21 @@ import java.util.ArrayList;
 
 public class RotoHTMLConverter{
     private int tIndex = 0; //used to help store players in correct index
+    private int pIndex = 0;
 
-    public RotoHTMLConverter(ArrayList<String> players, ArrayList<String> teams) throws IOException {
+    public RotoHTMLConverter(ArrayList<String> players, ArrayList<String> teams, ArrayList<String> pitchers) throws IOException {
         System.out.println("Converting HTML to Data");
+
         for(String city : teams){
             convertTeams(city); //function reads html and insert index in hash table
         }
 
         for (String team : players) {
             convertHelper(team);
+        }
+
+        for(String pitcher : pitchers){
+            convertPitcher(pitcher);
         }
     }
 
@@ -188,5 +195,41 @@ public class RotoHTMLConverter{
                 return; //found all cities in Line, no need to iterate further
             }
         }
+    }
+
+
+    private void convertPitcher(String line){
+        int counter = 0;
+        int salary = 0;
+        String arm = "";
+        String Name = "";
+
+        //test
+        System.out.println("WE ARE HERE");
+        System.out.println(line);
+
+        for(int i = 0; i < line.length(); i++){
+            System.out.println(line.charAt(i));
+            if(line.charAt(i) == 32){
+                counter++;
+                if(counter == 2){
+                    Name = line.substring(0,i);
+                    continue;
+                }
+
+                if(counter == 3){
+                    arm = line.substring(i-1,i);
+                    if(line.charAt(i+1) == '$') salary = playerSalary(line,i+1);
+                    else salary = (int)Float.parseFloat(line.substring(i+1,i+4))*1000;
+                    break;
+                }
+            }
+        }
+
+        Player newPlayer = new PitcherPlayer(TeamHashTable.teamIndex.get(pIndex),0,Name,
+                TeamHashTable.teamIndex.get(pIndex),arm,salary);
+
+        StartingPitchers.add(newPlayer);
+        pIndex++;
     }
 }

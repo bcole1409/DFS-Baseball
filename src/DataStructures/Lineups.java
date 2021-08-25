@@ -1,7 +1,6 @@
 package DataStructures;
 
 import DataStructures.PlayerTypes.Player;
-import DataStructures.PlayerTypes.PositionPlayer;
 
 import java.util.ArrayList;
 import java.util.List;
