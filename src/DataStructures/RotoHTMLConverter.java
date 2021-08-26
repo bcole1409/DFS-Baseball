@@ -106,7 +106,7 @@ public class RotoHTMLConverter{
 
 
             if(!side){
-                plateSideTEMP = team.substring(i,i+1);
+                //plateSideTEMP = team.substring(i,i+1);
                 i++;
                 side = true;
                 continue;
@@ -198,18 +198,13 @@ public class RotoHTMLConverter{
     }
 
 
-    private void convertPitcher(String line){
+    private void convertPitcher(String line) {
         int counter = 0;
         int salary = 0;
         String arm = "";
         String Name = "";
 
-        //test
-        System.out.println("WE ARE HERE");
-        System.out.println(line);
-
         for(int i = 0; i < line.length(); i++){
-            System.out.println(line.charAt(i));
             if(line.charAt(i) == 32){
                 counter++;
                 if(counter == 2){
@@ -228,6 +223,8 @@ public class RotoHTMLConverter{
 
         Player newPlayer = new PitcherPlayer(TeamHashTable.teamIndex.get(pIndex),0,Name,
                 TeamHashTable.teamIndex.get(pIndex),arm,salary);
+
+        new BaseballReferenceDownloader(newPlayer);
 
         StartingPitchers.add(newPlayer);
         pIndex++;

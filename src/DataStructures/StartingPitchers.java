@@ -14,7 +14,7 @@ public class StartingPitchers {
 
     public static void printAll(){
         for (Player player : PitchingLineup) {
-            System.out.println(player.Name);
+            System.out.println(player.Name + " " + player.stats[3]);
         }
     }
 
