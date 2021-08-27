@@ -31,8 +31,8 @@ public class FanGraphsHTMLConverter {
         String stringHolder = ""; //used to store data that will be used
 
         //used to store in stats
-        float IP = 0; float k; float BB; float HR; float BABIP; float LOB; float GB; float vFA;
-        float ERA; float FIP; float xFIP; float WAR;
+        float IP = 0; float k = 0; float BB = 0; float HR = 0; float BABIP = 0; float LOB = 0; float GB = 0; float vFA = 0;
+        float ERA = 0; float FIP = 0; float xFIP = 0; float WAR = 0;
 
         //booleans used for logic testing
         boolean teamFound = false;
@@ -47,6 +47,7 @@ public class FanGraphsHTMLConverter {
 
                 if(spaceCounter == 2){ //team abbreviation
                     stringHolder = s.substring(spaceCounterPrev + 1,spaceCounterCurrent);
+                    if(stringHolder.equals("WSN")) stringHolder = "WAS";
 
                     for(int j = 0; j < 30; j++){
                         if(TeamHashTable.teamIndex.get(j).equals(stringHolder)){
@@ -59,30 +60,67 @@ public class FanGraphsHTMLConverter {
                     if(!teamFound){ //team not playing today
                         System.out.println("Team not found");
                     }
-
-                    /*
-                    for(String t : TeamHashTable.teamIndex.values()){ //check to see if team exists
-                        if(t.equals(stringHolder)){
-                            teamFound = true;
-                            break;
-                        }
-
-                        index++; //helps find correct index
-                    }
-                     */
                 }
 
                 if(spaceCounter == 8){ //IP
                     IP = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
+                    continue;
                 }
 
-                //SPECIAL CASE
-                if(i == s.length()-5){ //end of sequence -> space logic wont work
-                    System.out.println("Attempting to add: " + stringHolder);
-                    Bullpen newBullpen = addToBullpen(stringHolder,IP,1,1,1,1,1,1,1,1,1,1,1);
-                    Bullpens.add(index, newBullpen);
-                    break;
+                if(spaceCounter == 9){ //K
+                    k = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
+                    continue;
                 }
+
+                if(spaceCounter == 10){ //BB
+                    BB = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
+                    continue;
+                }
+
+                if(spaceCounter == 11){ //HR
+                    HR = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
+                    continue;
+                }
+
+                if(spaceCounter == 12){ //BABIP
+                    BABIP = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
+                    continue;
+                }
+
+                if(spaceCounter == 13){  //LOB
+                    LOB = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
+                    continue;
+                }
+
+                if(spaceCounter == 14){ //GB
+                    GB = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
+                    continue;
+                }
+
+                if(spaceCounter == 15){ //vFA
+                    vFA = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
+                    continue;
+                }
+
+                if(spaceCounter == 16){ //ERA
+                    ERA = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
+                    continue;
+                }
+
+                if(spaceCounter == 17){ //FIP
+                    FIP = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
+                    continue;
+                }
+
+                if(spaceCounter == 18){ //xFIP
+                    xFIP = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
+                    continue;
+                }
+
+                if(spaceCounter == 19){ //WAR
+                    WAR = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
+                }
+
 
                 if(spaceCounter == 20){ //start of newTeam
                     spaceCounter = 0;
@@ -92,10 +130,18 @@ public class FanGraphsHTMLConverter {
 
                     else{
                         System.out.println("Attempting to add: " + stringHolder);
-                        Bullpen newBullpen = addToBullpen(stringHolder,IP,1,1,1,1,1,1,1,1,1,1,1);
+                        Bullpen newBullpen = addToBullpen(stringHolder,IP,k,BB,HR,BABIP,LOB,GB,vFA,ERA,FIP,xFIP,WAR);
                         Bullpens.add(index, newBullpen);
                         teamFound = false;
                     }
+                }
+
+                //SPECIAL CASE - Final Team
+                if(i == s.length()-5){ //end of sequence -> space logic wont work
+                    System.out.println("Attempting to add: " + stringHolder);
+                    Bullpen newBullpen = addToBullpen(stringHolder,IP,k,BB,HR,BABIP,LOB,GB,vFA,ERA,FIP,xFIP,WAR);
+                    Bullpens.add(index, newBullpen);
+                    break;
                 }
             }
         }
@@ -103,6 +149,10 @@ public class FanGraphsHTMLConverter {
 
     //IP, stikeouts, walks, HRs, BABIP, LOB%, GB%, HR/FB, vFA, ERA, xERA, FIP, xFIP, WAR
     private float parser(String s){
+        if(s.charAt(s.length()-1) == '%'){ //convert % to float number
+            return Float.parseFloat(s.substring(0,s.length()-1))/100;
+        }
+
         return Float.parseFloat(s);
     }
 
