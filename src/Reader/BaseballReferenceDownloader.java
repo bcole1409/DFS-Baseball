@@ -16,7 +16,7 @@ public class BaseballReferenceDownloader implements URLHandler {
     Player player;
 
     //URL VARIABLES
-    StringBuilder URL = new StringBuilder();
+    StringBuilder URL = new StringBuilder(); //used to build URL based on player type
     final String URLbase = "https://www.baseball-reference.com/players/";
     final List<String> URLend = Arrays.asList("01","02","03","04","05","06");
     final String URLBattingStandardEnd = "-bat.shtml#all_batting_advanced";
@@ -40,10 +40,6 @@ public class BaseballReferenceDownloader implements URLHandler {
         try{
             //test for forbidden names -> change name to correct format
             if(forbidden.contains(player.Name)){
-                //Testing Purposes
-                //System.out.println("TRUE");
-                //System.out.println(real.get(forbidden.indexOf(player.Name)));
-
                 player.Name = real.get(forbidden.indexOf(player.Name));
             }
 

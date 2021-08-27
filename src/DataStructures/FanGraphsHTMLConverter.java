@@ -1,7 +1,5 @@
 package DataStructures;
 
-import java.awt.*;
-
 public class FanGraphsHTMLConverter {
     String bullpen;
 
@@ -49,8 +47,20 @@ public class FanGraphsHTMLConverter {
 
                 if(spaceCounter == 2){ //team abbreviation
                     stringHolder = s.substring(spaceCounterPrev + 1,spaceCounterCurrent);
-                    index = 0; //used to find correct index insertion of bullpen in array
 
+                    for(int j = 0; j < 30; j++){
+                        if(TeamHashTable.teamIndex.get(j).equals(stringHolder)){
+                            teamFound = true;
+                            index = j;
+                            break;
+                        }
+                    }
+
+                    if(!teamFound){ //team not playing today
+                        System.out.println("Team not found");
+                    }
+
+                    /*
                     for(String t : TeamHashTable.teamIndex.values()){ //check to see if team exists
                         if(t.equals(stringHolder)){
                             teamFound = true;
@@ -59,16 +69,20 @@ public class FanGraphsHTMLConverter {
 
                         index++; //helps find correct index
                     }
-
-                    if(!teamFound){ //team not playing today
-                        System.out.println("Team not found");
-                    }
+                     */
                 }
 
                 if(spaceCounter == 8){ //IP
                     IP = parser(s.substring(spaceCounterPrev,spaceCounterCurrent));
                 }
 
+                //SPECIAL CASE
+                if(i == s.length()-5){ //end of sequence -> space logic wont work
+                    System.out.println("Attempting to add: " + stringHolder);
+                    Bullpen newBullpen = addToBullpen(stringHolder,IP,1,1,1,1,1,1,1,1,1,1,1);
+                    Bullpens.add(index, newBullpen);
+                    break;
+                }
 
                 if(spaceCounter == 20){ //start of newTeam
                     spaceCounter = 0;
@@ -88,10 +102,6 @@ public class FanGraphsHTMLConverter {
     }
 
     //IP, stikeouts, walks, HRs, BABIP, LOB%, GB%, HR/FB, vFA, ERA, xERA, FIP, xFIP, WAR
-    private void addBullpen(){
-
-    }
-
     private float parser(String s){
         return Float.parseFloat(s);
     }
