@@ -22,7 +22,7 @@ public class DraftKingsDownloader implements URLHandler {
         run();
     }
 
-    public void run(){
+    private void run(){
         connect();
     }
 
@@ -39,7 +39,7 @@ public class DraftKingsDownloader implements URLHandler {
     }
 
     public void parse() throws InterruptedException, IOException {
-        System.out.print("PARSING CONVERTING ROTOGRINDERS HTML");
+        System.out.print("CONVERTING ROTOGRINDERS HTML");
 
         for(int i = 0; i < 4; i++){
             TimeUnit.SECONDS.sleep(1);

@@ -2,6 +2,7 @@ package Main;
 
 
 import DataAggregator.DataCollector;
+import DataStructures.Bullpens;
 import DataStructures.Lineups;
 import DataStructures.StartingPitchers;
 
@@ -14,5 +15,6 @@ public class Main {
         DataCollector data = new DataCollector();
         Lineups.printAll();
         StartingPitchers.printAll();
+        Bullpens.printAll();
     }
 }
