@@ -1,13 +1,14 @@
 package DataStructures;
 
 import DataStructures.PlayerTypes.Player;
+import Statistics.Formulas;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class Lineups{
     static int i = 0; //increment
-    private static final List<Player> DailyLineups = new ArrayList<>(TeamHashTable.teamIndex.size()*9); //make size of total teams * 9
+    public static final List<Player> DailyLineups = new ArrayList<>(TeamHashTable.teamIndex.size()*9); //make size of total teams * 9
 
     public static void add(Player p) {
         DailyLineups.add(p);
@@ -29,10 +30,11 @@ public class Lineups{
         System.out.print(size);
 
         for (Player dailyLineup : DailyLineups) {
-            System.out.print(dailyLineup.BO + ": " + dailyLineup.CITY + " ");
-            System.out.print(dailyLineup.Name);
-            System.out.print(" " + dailyLineup.stats[0]);
             System.out.println();
+            System.out.print(dailyLineup.BO + ": " + dailyLineup.CITY + " ");
+            System.out.print(dailyLineup.Name + " ");
+            System.out.print(Formulas.RunsCreatedPerGame(dailyLineup));
+
         }
 
 

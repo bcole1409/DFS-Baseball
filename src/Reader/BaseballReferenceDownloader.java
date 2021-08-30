@@ -208,107 +208,107 @@ public class BaseballReferenceDownloader implements URLHandler {
                 if(spaceCounter == 8 || spaceCounter == 33){ //DOUBLES
                     if(spaceCounter == 33) {
                         player.stats[3] += yearWeight * parser;
-                        player.stats[3] -= yearWeight * player.stats[3]; //TO GET ACCURATE SINGLES
+                        player.stats[2] -= yearWeight * player.stats[3]; //TO GET ACCURATE SINGLES
                     }
 
                     else{
-                        player.stats[4] = careerWeight * parser;
-                        player.stats[4] -= careerWeight * player.stats[3]; //TO GET ACCURATE SINGLES
+                        player.stats[3] = careerWeight * parser;
+                        player.stats[2] -= careerWeight * player.stats[3]; //TO GET ACCURATE SINGLES
                     }
                     continue;
                 }
 
                 if(spaceCounter == 9 || spaceCounter == 34){ //TRIPLES
                     if(spaceCounter == 34) {
-                        player.stats[5] += yearWeight * parser;
-                        player.stats[5] -= yearWeight * player.stats[4]; //TO GET ACCURATE SINGLES
+                        player.stats[4] += yearWeight * parser;
+                        player.stats[2] -= yearWeight * player.stats[4]; //TO GET ACCURATE SINGLES
                     }
                     else{
-                        player.stats[6] = careerWeight * parser;
-                        player.stats[6] -= careerWeight * player.stats[4]; //TO GET ACCURATE SINGLES
+                        player.stats[4] = careerWeight * parser;
+                        player.stats[2] -= careerWeight * player.stats[4]; //TO GET ACCURATE SINGLES
                     }
                     continue;
                 }
 
                 if(spaceCounter == 10 || spaceCounter == 35){ //HOMERUNS
                     if(spaceCounter == 35) {
-                        player.stats[7] = yearWeight * parser;
-                        player.stats[7] -= yearWeight * player.stats[5]; //TO GET ACCURATE SINGLES
+                        player.stats[5] = yearWeight * parser;
+                        player.stats[2] -= yearWeight * player.stats[5]; //TO GET ACCURATE SINGLES
                     }
                     else{
-                        player.stats[8] = careerWeight * parser;
-                        player.stats[8] -= careerWeight * player.stats[5]; //TO GET ACCURATE SINGLES
+                        player.stats[5] = careerWeight * parser;
+                        player.stats[2] -= careerWeight * player.stats[5]; //TO GET ACCURATE SINGLES
                     }
 
                     continue;
                 }
 
                 if(spaceCounter == 11 || spaceCounter == 36){ //RBI
-                    if(spaceCounter == 36) player.stats[9] = yearWeight * parser;
-                    else player.stats[9] = careerWeight * parser;
+                    if(spaceCounter == 36) player.stats[6] = yearWeight * parser;
+                    else player.stats[6] = careerWeight * parser;
                     continue;
                 }
 
                 if(spaceCounter == 12 || spaceCounter == 37){ //STOLENBASES
-                    if(spaceCounter == 37) player.stats[10] += yearWeight * parser;
-                    else player.stats[10] = careerWeight * parser;
+                    if(spaceCounter == 37) player.stats[7] += yearWeight * parser;
+                    else player.stats[7] = careerWeight * parser;
                     continue;
                 }
 
                 if(spaceCounter == 13 || spaceCounter == 38){ //STEALING
-                    if(spaceCounter == 38) player.stats[11] += yearWeight * parser;
-                    else player.stats[11] = careerWeight * parser;
+                    if(spaceCounter == 38) player.stats[8] += yearWeight * parser;
+                    else player.stats[8] = careerWeight * parser;
                     continue;
                 }
 
                 if(spaceCounter == 14 || spaceCounter == 39){ //WALKS
-                    if(spaceCounter == 39) player.stats[12] += yearWeight * parser;
-                    else player.stats[12] = careerWeight * parser;
+                    if(spaceCounter == 39) player.stats[9] += yearWeight * parser;
+                    else player.stats[9] = careerWeight * parser;
                     continue;
                 }
 
                 if(spaceCounter == 15 || spaceCounter == 40){ //K's
-                    if(spaceCounter == 40) player.stats[13] += yearWeight * parser;
-                    else player.stats[13] = careerWeight * parser;
+                    if(spaceCounter == 40) player.stats[10] += yearWeight * parser;
+                    else player.stats[10] = careerWeight * parser;
                     continue;
                 }
 
                 if(spaceCounter == 17 || spaceCounter == 42){ //OBP
-                    if(spaceCounter == 42) player.stats[14] += yearWeight * parser;
-                    else player.stats[14] = careerWeight * parser;
+                    if(spaceCounter == 42) player.stats[11] += yearWeight * parser;
+                    else player.stats[11] = careerWeight * parser;
                     continue;
                 }
 
                 if(spaceCounter == 18 || spaceCounter == 43){ //SLG
-                    if(spaceCounter == 43) player.stats[15] += yearWeight * parser;
-                    else player.stats[15] = careerWeight * parser;
+                    if(spaceCounter == 43) player.stats[12] += yearWeight * parser;
+                    else player.stats[12] = careerWeight * parser;
                     continue;
                 }
 
                 if(spaceCounter == 19 || spaceCounter == 44){ //OPS
-                    if(spaceCounter == 44) player.stats[16] += yearWeight * parser;
-                    else player.stats[16] = careerWeight * parser;
+                    if(spaceCounter == 44) player.stats[13] += yearWeight * parser;
+                    else player.stats[13] = careerWeight * parser;
                     continue;
                 }
 
                 if(spaceCounter == 20 || spaceCounter == 45){ //OPS+ -> PLAYER ADJUSTED BALLPARKS
-                    if(spaceCounter == 45) player.stats[17] += yearWeight * parser;
-                    else player.stats[17] = careerWeight * parser;
+                    if(spaceCounter == 45) player.stats[14] += yearWeight * parser;
+                    else player.stats[14] = careerWeight * parser;
                     continue;
                 }
 
                 if(spaceCounter == 21 || spaceCounter == 46){ //TOTAL BASES
-                    if(spaceCounter == 46) player.stats[18] += yearWeight * parser;
-                    else player.stats[18] = careerWeight * parser;
+                    if(spaceCounter == 46) player.stats[15] += yearWeight * parser;
+                    else player.stats[15] = careerWeight * parser;
                     continue;
                 }
 
                 if(spaceCounter == 23 || spaceCounter == 48){ //HIT BY PITCH
                     if(spaceCounter == 48) {
-                        player.stats[19] += yearWeight * parser;
+                        player.stats[16] += yearWeight * parser;
                         break;
                     }
-                    else player.stats[19] = careerWeight * parser;
+                    else player.stats[16] = careerWeight * parser;
                 }
             }
         }

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StartingPitchers {
-    private static final List<Player> PitchingLineup = new ArrayList<>(30);
+    public static final List<Player> PitchingLineup = new ArrayList<>(30);
 
     public static void add(Player p){
         PitchingLineup.add(p);

@@ -1,5 +1,9 @@
 package DataStructures;
 
+import org.jsoup.Jsoup;
+
+import java.io.IOException;
+
 public class FanGraphsHTMLConverter {
     String bullpen;
 
@@ -37,28 +41,34 @@ public class FanGraphsHTMLConverter {
         //booleans used for logic testing
         boolean teamFound = false;
 
-        System.out.println(s);
-
         for(int i = 0; i < s.length(); i++){
             if(s.charAt(i) == 32){ //check for space character
                 spaceCounter++;
                 spaceCounterPrev = spaceCounterCurrent; //set previous space index
                 spaceCounterCurrent = i; //set currentIndex
 
-                if(spaceCounter == 2){ //team abbreviation
-                    stringHolder = s.substring(spaceCounterPrev + 1,spaceCounterCurrent);
-                    if(stringHolder.equals("WSN")) stringHolder = "WAS";
+                if(spaceCounter == 2) { //team abbreviation
+                    stringHolder = s.substring(spaceCounterPrev + 1, spaceCounterCurrent);
+                    if (stringHolder.equals("WSN")) stringHolder = "WAS";
+                    System.out.println(stringHolder);
 
-                    for(int j = 0; j < 30; j++){
-                        if(TeamHashTable.teamIndex.get(j).equals(stringHolder)){
-                            teamFound = true;
-                            index = j;
-                            break;
+                    for (int j = 0; j < 30; j++) {
+                        try {
+                            if (TeamHashTable.teamIndex.get(j).equals(stringHolder)) {
+                                teamFound = true;
+                                index = j;
+                                break;
+                            }
+
+                        } catch (Exception e) {
+                            //System.out.println("NULL");
                         }
-                    }
 
-                    if(!teamFound){ //team not playing today
-                        System.out.println("Team not found");
+                        /*
+                        if (!teamFound) { //team not playing today
+                            System.out.println("Team not found");
+                        }
+                         */
                     }
                 }
 
@@ -129,7 +139,7 @@ public class FanGraphsHTMLConverter {
                     }
 
                     else{
-                        System.out.println("Attempting to add: " + stringHolder);
+                        //System.out.println("Attempting to add: " + stringHolder);
                         Bullpen newBullpen = addToBullpen(stringHolder,IP,k,BB,HR,BABIP,LOB,GB,vFA,ERA,FIP,xFIP,WAR);
                         Bullpens.add(index, newBullpen);
                         teamFound = false;
@@ -138,7 +148,7 @@ public class FanGraphsHTMLConverter {
 
                 //SPECIAL CASE - Final Team
                 if(i == s.length()-5){ //end of sequence -> space logic wont work
-                    System.out.println("Attempting to add: " + stringHolder);
+                    //System.out.println("Attempting to add: " + stringHolder);
                     Bullpen newBullpen = addToBullpen(stringHolder,IP,k,BB,HR,BABIP,LOB,GB,vFA,ERA,FIP,xFIP,WAR);
                     Bullpens.add(index, newBullpen);
                     break;
