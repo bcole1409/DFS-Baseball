@@ -31,9 +31,9 @@ public class Lineups{
 
         for (Player dailyLineup : DailyLineups) {
             System.out.println();
-            System.out.print(dailyLineup.BO + ": " + dailyLineup.CITY + " ");
-            System.out.print(dailyLineup.Name + " ");
-            System.out.print(Formulas.RunsCreatedPerGame(dailyLineup));
+            System.out.print(dailyLineup.Salary + "::" + dailyLineup.Name + " player for the " + dailyLineup.CITY + " ");
+            System.out.print("Batting " + dailyLineup.BO + " from the " + dailyLineup.PlateSide + " of the plate" + ". Playing " + dailyLineup.Position);
+            //System.out.print(Formulas.RunsCreatedPerGame(dailyLineup));
 
         }
 

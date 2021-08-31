@@ -12,14 +12,16 @@ public abstract class Player {
     public String Team;
     public String Position;
     public int Salary;
+    public String PlateSide;
 
-    public Player(String C, int B, String N, String T, String P, int S) {
+    public Player(String C, int B, String N, String T, String P, int S, String ps) {
         this.CITY = C;
         this.BO = B;
         this.Name = N;
         this.Team = T;
         this.Position = P;
         this.Salary = S;
+        this.PlateSide = ps;
     }
 
     public Player() {

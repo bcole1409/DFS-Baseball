@@ -19,11 +19,11 @@ public class RotoHTMLConverter{
         }
 
         for (String team : players) {
-            convertHelper(team);
+            convertHelper(team); //function reads html and converts String to PositionPlayer
         }
 
         for(String pitcher : pitchers){
-            convertPitcher(pitcher);
+            convertPitcher(pitcher); //function reads html and converts String to PitcherPlayer
         }
     }
 
@@ -106,7 +106,7 @@ public class RotoHTMLConverter{
 
 
             if(!side){
-                //plateSideTEMP = team.substring(i,i+1);
+                plateSideTEMP = team.substring(i,i+1);
                 i++;
                 side = true;
                 continue;
@@ -125,11 +125,12 @@ public class RotoHTMLConverter{
                 Player newPlayer;
 
                 if(position.equals("SP") || position.equals("RP")){
-                    newPlayer = LineupFactory.getPitcherPlayer(TeamHashTable.teamIndex.get(tIndex), battingOrder, NameTEMP, team, position, SalaryTEMP);
+                    newPlayer = LineupFactory.getPitcherPlayer(TeamHashTable.teamIndex.get(tIndex), battingOrder, NameTEMP, team, position, SalaryTEMP, plateSideTEMP);
                 }
 
                 else{
-                    newPlayer = LineupFactory.getPositionPlayer(TeamHashTable.teamIndex.get(tIndex), battingOrder, NameTEMP, team, position, SalaryTEMP);
+                    if(SalaryTEMP > 10000) SalaryTEMP -= 10000;
+                    newPlayer = LineupFactory.getPositionPlayer(TeamHashTable.teamIndex.get(tIndex), battingOrder, NameTEMP, team, position, SalaryTEMP, plateSideTEMP);
                 }
 
                 new BaseballReferenceDownloader(newPlayer); //add statistics to array of stats
@@ -222,7 +223,7 @@ public class RotoHTMLConverter{
         }
 
         Player newPlayer = new PitcherPlayer(TeamHashTable.teamIndex.get(pIndex),0,Name,
-                TeamHashTable.teamIndex.get(pIndex),arm,salary);
+                TeamHashTable.teamIndex.get(pIndex),arm,salary, "None");
 
         new BaseballReferenceDownloader(newPlayer);
 
