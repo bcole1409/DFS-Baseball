@@ -14,9 +14,9 @@ public class Main {
         //Start Data Aggregator
         new DataCollector();
 
+        //TESTING PURPOSES
         TeamHashTable.printAll();
         Lineups.printAll();
-
         StartingPitchers.printAll();
         Bullpens.printAll();
         //Testing: Work in Progress
