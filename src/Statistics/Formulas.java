@@ -19,4 +19,10 @@ public class Formulas {
         return p.stats[0] - (0.18 * p.stats[0] -
                 (p.stats[2] + p.stats[3] + p.stats[4] + p.stats[5]));
     }
+
+    public static double probStrike(Player p){
+        double strikeRate = 0.68; //league average
+        strikeRate -= p.stats[3]*0.1;
+        return strikeRate;
+    }
 }

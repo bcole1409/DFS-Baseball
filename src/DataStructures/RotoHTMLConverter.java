@@ -6,13 +6,21 @@ import Reader.BaseballReferenceDownloader;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 
 public class RotoHTMLConverter{
     private int tIndex = 0; //used to help store players in correct index
     private int pIndex = 0;
 
-    public RotoHTMLConverter(ArrayList<String> players, ArrayList<String> teams, ArrayList<String> pitchers) throws IOException {
-        System.out.println("Converting HTML to Data");
+    public RotoHTMLConverter(ArrayList<String> players, ArrayList<String> teams, ArrayList<String> pitchers) throws IOException, InterruptedException {
+        System.out.print("\nStoring Lineup Data in Lineups");
+
+        for(int i = 0; i < 4; i++){
+            TimeUnit.SECONDS.sleep(1);
+            System.out.print(".");
+        }
+
+        System.out.println(); //Print for Formatting
 
         for(String city : teams){
             convertTeams(city); //function reads html and insert index in hash table
@@ -27,6 +35,10 @@ public class RotoHTMLConverter{
         }
     }
 
+    /*
+    Goal of this function is to parse String Data into raw data:
+        PlayerName  Salary  PlateSide   Position    BattingOrder
+     */
     private void convertHelper(String team) throws IOException {
         String NameTEMP = "";
         int SalaryTEMP = 0;
@@ -120,7 +132,7 @@ public class RotoHTMLConverter{
 
             //algo done for each player will create new player object -> needs to pass boolean test
 
-            if(team.charAt(i) == '%'){
+            if(team.charAt(i) == '%' || (team.charAt(i) == '0' && team.charAt(i-2) == 'K')){
                 //adds new player to lineup generator
                 Player newPlayer;
 
@@ -138,7 +150,7 @@ public class RotoHTMLConverter{
 
                 if(batOrder == 10){
                     batOrder = 1;
-                    tIndex++;
+                    tIndex++; //Means we are onto the next team
                 }
 
                 //reset booleans
@@ -225,9 +237,9 @@ public class RotoHTMLConverter{
         Player newPlayer = new PitcherPlayer(TeamHashTable.teamIndex.get(pIndex),0,Name,
                 TeamHashTable.teamIndex.get(pIndex),arm,salary, "None");
 
-        new BaseballReferenceDownloader(newPlayer);
+        new BaseballReferenceDownloader(newPlayer); //pass new pitcher to BaseReferenceDownloader Object
 
         StartingPitchers.add(newPlayer);
-        pIndex++;
+        pIndex++;   //insert in new index position
     }
 }

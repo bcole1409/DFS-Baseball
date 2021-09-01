@@ -4,6 +4,10 @@ import DataStructures.Lineups;
 import DataStructures.PlayerTypes.Player;
 import DataStructures.StartingPitchers;
 import DataStructures.TeamHashTable;
+import Statistics.Formulas;
+import Statistics.OffensivePointSystem;
+
+import java.math.*;
 
 public class GameSimulations {
     //Team Index -> used to pick correct teams
@@ -28,16 +32,22 @@ public class GameSimulations {
     int Outs;
     int Inning;
 
+    //bases
+    int b1;
+    int b2;
+    int b3;
+
     public GameSimulations(){
         runGames();
     }
 
     public void runGames(){
-        StartGame(); //initialize all variables
         Game = 0; //set game to 0, increment to 100
+        startSeries(); //start series of games between two teams
 
         //run games 100 times
         while(Game < 100){
+            StartGame(); //initialize all variables
             while(Inning >= 9 && HomeRuns != VisitorRuns){
                 StartInning(); //play inning by inning until we have a winner
             }
@@ -50,7 +60,7 @@ public class GameSimulations {
         }
     }
 
-    private void StartGame(){ //initialize game variables
+    private void startSeries(){
         if(GameNumber > 0){
             AwayTeam+=2;
             HomeTeam+=2;
@@ -61,7 +71,9 @@ public class GameSimulations {
             AwayTeam = 0;
             HomeTeam = 1;
         }
+    }
 
+    private void StartGame(){ //initialize game variables
         //initialize at the start of each new game
         GameNumber++;
         Inning = 1;
@@ -84,12 +96,38 @@ public class GameSimulations {
     }
 
     private void AwayBatting(){
+        Player currentBatter = Lineups.DailyLineups.get(AwayTeam * 9 + VisitorOrder);
         Outs = 0;
+        b1 = 0;
+        b2 = 0;
+        b3 = 0;
+
+        while(Outs!=3){
+            if(throwPitch(HomePitcher)==1){ //if pitcher throws strike -> then what outcome
+
+            }
+
+            else{ //if pitcher throw ball -> then what outcome
+
+            }
+        }
 
     }
 
     private void HomeBatting(){
         Outs = 0;
+        b1 = 0;
+        b2 = 0;
+        b3 = 0;
 
+    }
+
+    private int throwPitch(Player p){ //int 0 = ball ---- 1 = strike]
+        if(Math.random() <= Formulas.probStrike(p)) return 1;
+        return 0;
+    }
+
+    private int batterDecision(Player p){
+        return 1;
     }
 }

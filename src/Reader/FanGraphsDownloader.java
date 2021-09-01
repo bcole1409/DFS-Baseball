@@ -33,7 +33,7 @@ public class FanGraphsDownloader implements URLHandler {
     }
 
     public void parse() throws InterruptedException, IOException{
-        System.out.print("PARSING CONVERTING FANGRAPHS HTML");
+        System.out.print("CONVERTING FANGRAPHS HTML to DATA");
 
         for(int i = 0; i < 4; i++){
             TimeUnit.SECONDS.sleep(1);

@@ -1,16 +1,21 @@
 package DataStructures;
 
-import org.jsoup.Jsoup;
-
-import java.io.IOException;
+import java.util.concurrent.TimeUnit;
 
 public class FanGraphsHTMLConverter {
     String bullpen;
 
-    public FanGraphsHTMLConverter(String BullpenData){
+    public FanGraphsHTMLConverter(String BullpenData) throws InterruptedException {
         this.bullpen = BullpenData;
         bullpen = stringRemover(bullpen);
         convertHelper(bullpen);
+
+        System.out.print("CONVERTING FanGraphs HTML to Data");
+
+        for(int i = 0; i < 4; i++){
+            TimeUnit.SECONDS.sleep(1);
+            System.out.print(".");
+        }
     }
 
     private String stringRemover(String s){ //removes unecessary characters
@@ -50,7 +55,6 @@ public class FanGraphsHTMLConverter {
                 if(spaceCounter == 2) { //team abbreviation
                     stringHolder = s.substring(spaceCounterPrev + 1, spaceCounterCurrent);
                     if (stringHolder.equals("WSN")) stringHolder = "WAS";
-                    System.out.println(stringHolder);
 
                     for (int j = 0; j < 30; j++) {
                         try {

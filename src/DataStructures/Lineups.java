@@ -25,19 +25,15 @@ public class Lineups{
     }
 
     public static void printAll() {
-        int size = DailyLineups.size();
-
-        System.out.print(size);
+        //int size = DailyLineups.size();
 
         for (Player dailyLineup : DailyLineups) {
             System.out.println();
-            System.out.print(dailyLineup.Salary + "::" + dailyLineup.Name + " player for the " + dailyLineup.CITY + " ");
+            System.out.print("$" + dailyLineup.Salary + "::" + dailyLineup.Name + " player for the " + dailyLineup.CITY + " ");
             System.out.print("Batting " + dailyLineup.BO + " from the " + dailyLineup.PlateSide + " of the plate" + ". Playing " + dailyLineup.Position);
             //System.out.print(Formulas.RunsCreatedPerGame(dailyLineup));
-
         }
-
-
+        System.out.println();
     }
 }
 

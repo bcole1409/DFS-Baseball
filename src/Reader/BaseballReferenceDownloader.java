@@ -21,6 +21,8 @@ public class BaseballReferenceDownloader implements URLHandler {
     final List<String> URLend = Arrays.asList("01","02","03","04","05","06");
     final String URLBattingStandardEnd = "-bat.shtml#all_batting_advanced";
     final String URLPitchingStandardEnd = ".shtml";
+
+    //SOME PLAYERS HAVE GO BY DIFFERENT NAMES
     final List<String> forbidden = Arrays.asList("Giancarlo Stanton", "Travis d'Arnaud", "Jose Barrero", "Chi Chi", "Tommy La", "Bryan De", "Tyler O'Neill", "Yulieski Gurriel", "Ryan O'Hearn", "Hoy Jun");
     final List<String> real = Arrays.asList("Mike Stanton", "Travis Darnaud", "Jose Garcia", "Chi Gonzalez", "Tommy LaStella", "Bryan DeLaCruz", "Tyler Oneill", "Yuli Gourriel", "Ryan Ohearn", "Hoy Park");
 
@@ -36,6 +38,10 @@ public class BaseballReferenceDownloader implements URLHandler {
         connect();
     }
 
+    /*
+    Connect Function creates different URLs based on type of Player - helps collect correct data
+    pertaining to either pitching or batting stats.
+     */
     public void connect() {
         try{
             //test for forbidden names -> change name to correct format
@@ -129,6 +135,9 @@ public class BaseballReferenceDownloader implements URLHandler {
         }
     }
 
+    /*
+    Once the correct URL is found, we parse the certain classes of html depending on position of player
+     */
     public void parse(){
         if(player instanceof PositionPlayer){
             Elements battingStandard = doc.select("tfoot");
@@ -162,6 +171,9 @@ public class BaseballReferenceDownloader implements URLHandler {
         return null; //name not found
     }
 
+    /*
+    Helper function collects standard batting data from BaseballReferences
+     */
     private void playerStandardBatting(String e){
         int spaceCounter = 0;
         int spaceCounterPrev;
@@ -314,6 +326,9 @@ public class BaseballReferenceDownloader implements URLHandler {
         }
     }
 
+    /*
+    Helper function collects standard pitching data from BaseballReferences
+     */
     public void playerStandardPitching(String e){
         int spaceCounter = 0;
         int spaceCounterPrev;
@@ -419,6 +434,9 @@ public class BaseballReferenceDownloader implements URLHandler {
         }
     }
 
+    /*
+    Helper Parse Function (String to Number)
+     */
     private Double convertToDouble(String s){
         return Double.parseDouble(s);
     }

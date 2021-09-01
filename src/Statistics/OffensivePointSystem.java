@@ -1,6 +1,6 @@
 package Statistics;
 
-enum OffensivePointSystem {
+public enum OffensivePointSystem {
     SINGLE,
     DOUBLE,
     TRIPLE,

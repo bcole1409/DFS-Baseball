@@ -30,24 +30,22 @@ public class DraftKingsDownloader implements URLHandler {
         try {
             doc = Jsoup.connect(URL).get(); //html code
             //System.out.println(doc);
+            System.out.print("CONVERTING ROTOGRINDERS HTML to Data");
+
+            for(int i = 0; i < 4; i++){
+                TimeUnit.SECONDS.sleep(1);
+                System.out.print(".");
+            }
             parse();
         }
         catch (IOException | InterruptedException e)
         {
+            System.out.println("Rotogrinders Status: Down");
             e.printStackTrace();
         }
     }
 
     public void parse() throws InterruptedException, IOException {
-        System.out.print("CONVERTING ROTOGRINDERS HTML");
-
-        for(int i = 0; i < 4; i++){
-            TimeUnit.SECONDS.sleep(1);
-            System.out.print(".");
-        }
-
-        System.out.println("\n");
-
         //Elements div = doc.select("div.schedules"); //select div class
         Elements ul = doc.select("div.schedules > ul");
         Elements li = ul.select("li"); //select all li under ul
@@ -60,17 +58,17 @@ public class DraftKingsDownloader implements URLHandler {
         int j = 0;
         int k = 0;
 
-        for (Element element : Players) {
+        for (Element element : Players) { //convert elements to string, store in list, which will be converted into data RotoConverter
             teamLineUps.add(i,element.text());
             i++; //increment index of array
         }
 
-        for (Element element : Teams) {
+        for (Element element : Teams) { //convert elements to string, store in list, which will be converted into data RotoConverter
             teams.add(j,element.text());
             j++; //increment index of array
         }
 
-        for(Element element : Pitchers){
+        for(Element element : Pitchers){ //convert elements to string, store in list, which will be converted into data RotoConverter
             pitchers.add(k,element.text());
             k++;
         }
